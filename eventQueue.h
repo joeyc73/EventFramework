@@ -7,12 +7,19 @@
 #include "EventFramework.h"
 
 #define MAX_VAL 5
+//Queue
+typedef struct QueueObj* Queue;
 
-void insertEvent(Event event);
+//Constructor
+Queue newQueue(void);
+//Destructor
+void freeQueue(Queue* Q);
 
-void removeEvent();
+void insertEvent(Event event, Queue Q);
 
-int queue_size();
+void removeEvent(Queue Q);
+
+int queue_size(Queue Q);
 
 
 
