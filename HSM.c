@@ -14,15 +14,6 @@ typedef enum {
     Panic,
 } HSMState;
 
-static const char *StateNames[] = {
-	"InitState",
-    "SearchingForSignal",
-    "TrackingSignal",
-    "GoingUp",
-    "GoingDown",
-    "Panic",
-};
-
 static HSMState CurrentState = InitState;
 static HSMState nextState;
 
