@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include "EventFramework.h"
-
 #include "eventQueue.h"
 
 // structs --------------------------------------------------------------------
