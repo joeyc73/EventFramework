@@ -9,7 +9,6 @@
 typedef struct NodeObj{
    Event event;
    struct NodeObj* next;
-   struct NodeObj* prev;
 } NodeObj;
 
 // private Node type
@@ -27,7 +26,7 @@ Node newNode(Event event){
    Node N;
    N = malloc(sizeof(NodeObj));
    N->event = event;
-   N->prev = N->next = NULL;
+   N->next = NULL;
    return(N);
 }
 void freeNode(Node* pN){
@@ -43,10 +42,10 @@ Queue newQueue(void){
    Q->numItems = 0;
    return(Q);
 }
-void freeQueue(List* pL){
-	if(pL != NULL && *pL != NULL){
-		free(*pL);
-		*pL = NULL;
+void freeQueue(Queue* pQ){
+	if(pQ != NULL && *pQ != NULL){
+		free(*pQ);
+		*pQ = NULL;
 	}
 }
 
@@ -59,7 +58,6 @@ void insertEvent(Event event, Queue Q){
 		Node P = Q->bottom;
 		Node N = newNode(event);
 		P->next = N;
-		N->prev = P;
 		Q->bottom = N;
 	}
 	Q->numItems++;
@@ -71,7 +69,6 @@ void removeEvent(Queue Q){
 		Node P = Q->top;
 		Q->top = P->next;
 		Node N = Q->top;
-		N->prev = NULL;
 		P->next = NULL;
 		freeNode(&P);
 		Q->numItems--;
