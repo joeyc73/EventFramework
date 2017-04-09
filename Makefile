@@ -1,6 +1,12 @@
+CC=gcc
+CFLAGS=-Wall
+SOURCE=Framework_Main.c eventQueue.c
+EXECUTABLE=FrameworkMain
+ 
+all : $(EXECUTABLE)
 
-all : Framework_Main.c
-	gcc -o Framework_Main Framework_Main.c
+$(EXECUTABLE) : $(SOURCE)
+	$(CC) $(CFLAGS) -o $(EXECUTABLE) $(SOURCE)
 
-valgrind : ./queue
-	valgrind -v --leak-check=yes ./queue
+valgrind : $(EXECUTABLE)
+	valgrind -v --leak-check=yes ./$(EXECUTABLE)

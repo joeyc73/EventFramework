@@ -62,7 +62,7 @@ void insertEvent(Event event, Queue Q){
 		Q->bottom = N;
 		if (Q->numItems > MAX_VAL){
 			printf("WARNING: Queue Overflow");
-			removeEvent();
+			removeEvent(Q);
 		}
 	}
 	Q->numItems++;
@@ -73,7 +73,6 @@ void removeEvent(Queue Q){
 	else{
 		Node P = Q->top;
 		Q->top = P->next;
-		Node N = Q->top;
 		P->next = NULL;
 		freeNode(&P);
 		Q->numItems--;
@@ -83,14 +82,3 @@ void removeEvent(Queue Q){
 int queue_size(Queue Q){
 	return Q->numItems;
 }
-
-/* Used as test harness */
-
-// void main () {
-// 	Queue Q = newQueue();
-// 	Event e1 = {Init_Event, 1};
-// 	insertEvent(e1, Q);
-// 	removeEvent(Q);
-// 	printf ("Size: %d\n", queue_size(Q));
-// 	freeQueue(&Q);
-// }
