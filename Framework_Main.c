@@ -7,14 +7,35 @@ and add the events to the queue. */
 
 #include "EventFramework.h"
 #include "eventQueue.h"
+#include "HSM.h"
 
 
 int main(int argc, char* argv[]) {
-	Queue hsmQueue = newQueue();
-	Event e1 = {Init_Event, 1};
-	insertEvent(e1, hsmQueue);
-	printf ("Size: %d\n", queue_size(hsmQueue));
-	removeEvent(hsmQueue);
-	printf ("Size: %d\n", queue_size(hsmQueue));
+
+	//Initialize everything..
+	Queue hsmQueue = InitHSM();
+
+
+
+	//Start main loop
+	int loop = 1;
+	while (loop){
+
+		//Check for new events
+		//Ex: if (event = checkUltrasonic()) insertEvent(event)
+
+		Event e1 = {Humidity_Event, 51};
+		PostHSM(e1);
+
+		if (queueSize(hsmQueue) > 0){
+			//Remove event from queue, and pass it to the HSM
+			RunHSM(removeEvent(hsmQueue));
+			loop = 0;
+		}
+		
+	}
+
+	// TODO: Need a way to exit while loop
 	freeQueue(&hsmQueue);
+	return 0;
 }

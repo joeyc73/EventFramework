@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-Wall
-SOURCE=Framework_Main.c eventQueue.c
+SOURCE=Framework_Main.c eventQueue.c HSM.c
 EXECUTABLE=FrameworkMain
  
 all : $(EXECUTABLE)

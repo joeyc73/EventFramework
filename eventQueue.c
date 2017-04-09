@@ -68,17 +68,22 @@ void insertEvent(Event event, Queue Q){
 	Q->numItems++;
 }
 
-void removeEvent(Queue Q){
+Event removeEvent(Queue Q){
+	Event retEvent;
 	if(Q->numItems == 0) printf("QueueError: calling removeEvent() on empty Queue\n");
 	else{
 		Node P = Q->top;
 		Q->top = P->next;
 		P->next = NULL;
+
+		retEvent = P->event;
+
 		freeNode(&P);
 		Q->numItems--;
 	}
+	return retEvent;
 }
 
-int queue_size(Queue Q){
+int queueSize(Queue Q){
 	return Q->numItems;
 }

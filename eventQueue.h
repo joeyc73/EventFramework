@@ -17,9 +17,9 @@ void freeQueue(Queue* Q);
 
 void insertEvent(Event event, Queue Q);
 
-void removeEvent(Queue Q);
+Event removeEvent(Queue Q);
 
-int queue_size(Queue Q);
+int queueSize(Queue Q);
 
 
 
