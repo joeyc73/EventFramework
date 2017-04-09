@@ -16,6 +16,8 @@ typedef enum {
 	Humidity_Event,
 } EventType;
 
+extern const char* TypeArray[];
+
 typedef struct Event{
 	EventType Type;
 	uint8_t Param;

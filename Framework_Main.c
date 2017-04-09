@@ -9,6 +9,17 @@ and add the events to the queue. */
 #include "eventQueue.h"
 #include "HSM.h"
 
+const char* EventStr[] = {
+	"No_Event",
+	"Init_Event",
+	"Entry_Event",
+	"Exit_Event",
+	"Ultrasonic_Event",
+	"Depth_Event",
+	"Humidity_Event"
+};
+
+
 
 int main(int argc, char* argv[]) {
 
@@ -29,7 +40,12 @@ int main(int argc, char* argv[]) {
 
 		if (queueSize(hsmQueue) > 0){
 			//Remove event from queue, and pass it to the HSM
-			RunHSM(removeEvent(hsmQueue));
+			Event retEvent = RunHSM(removeEvent(hsmQueue));
+
+			if (retEvent.Type != No_Event){
+				printf("Error: Event was not handled in HSM - %s\n", EventStr[retEvent.Type]);
+				loop = 0;
+			}
 			loop = 0;
 		}
 		
