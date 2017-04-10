@@ -52,7 +52,7 @@ Event RunHSM(Event ThisEvent){
 
 	switch(CurrentState){
 		case InitState:
-			printf("%s ->  InitState\n", EventStr[ThisEvent.Type]);
+			printf("%s(%d) ->  InitState\n", EventStr[ThisEvent.Type], ThisEvent.Param);
 			if(ThisEvent.Type == Init_Event){
 				//do initializations
 
@@ -65,7 +65,7 @@ Event RunHSM(Event ThisEvent){
 			break;
 
 		case SearchingForSignal:
-			printf("%s ->  SearchingForSignal\n", EventStr[ThisEvent.Type]);
+			printf("%s(%d) ->  SearchingForSignal\n", EventStr[ThisEvent.Type], ThisEvent.Param);
 
 			//Pass event to sub-state
 
@@ -85,7 +85,7 @@ Event RunHSM(Event ThisEvent){
 					NextState = GoingUp;
 					changeStates = TRUE;
 				}
-				else if (ThisEvent.Param == 11) {
+				else if (ThisEvent.Param == 1) {
 					NextState = GoingDown;
 					changeStates = TRUE;
 				}
@@ -101,17 +101,17 @@ Event RunHSM(Event ThisEvent){
 			break;
 
 		case TrackingSignal:
-			printf("%s ->  TrackingSignal\n", EventStr[ThisEvent.Type]);
+			printf("%s(%d) ->  TrackingSignal\n", EventStr[ThisEvent.Type], ThisEvent.Param);
 
 			//Pass event to sub-state
 
 			if(ThisEvent.Type == Depth_Event){
 				//TODO: typedef params to somthing like TOO_DEEP & TOO_SHALLOW
-				if (ThisEvent.Param == 00) {
+				if (ThisEvent.Param == 0) {
 					NextState = GoingUp;
 					changeStates = TRUE;
 				}
-				else if (ThisEvent.Param == 11) {
+				else if (ThisEvent.Param == 1) {
 					NextState = GoingDown;
 					changeStates = TRUE;
 				}
@@ -127,14 +127,14 @@ Event RunHSM(Event ThisEvent){
 			break;
 
 		case GoingUp:
-			printf("%s ->  GoingUp\n", EventStr[ThisEvent.Type]);
+			printf("%s(%d) ->  GoingUp\n", EventStr[ThisEvent.Type], ThisEvent.Param);
 
 			if(ThisEvent.Type == Ultrasonic_Event){
 				//ignore
 				ThisEvent.Type = No_Event;	
 			}
 			else if(ThisEvent.Type == Depth_Event){
-				if (ThisEvent.Param == 22) {
+				if (ThisEvent.Param == 2) {
 					NextState = SearchingForSignal;
 					changeStates = TRUE;
 				}
@@ -148,14 +148,14 @@ Event RunHSM(Event ThisEvent){
 			break;
 
 		case GoingDown:
-			printf("%s ->  GoingDown\n", EventStr[ThisEvent.Type]);
+			printf("%s(%d) ->  GoingDown\n", EventStr[ThisEvent.Type], ThisEvent.Param);
 
 			if(ThisEvent.Type == Ultrasonic_Event){
 				//ignore
 				ThisEvent.Type = No_Event;	
 			}
 			else if(ThisEvent.Type == Depth_Event){
-				if (ThisEvent.Param == 22) {
+				if (ThisEvent.Param == 2) {
 					NextState = SearchingForSignal;
 					changeStates = TRUE;
 				}
@@ -169,7 +169,7 @@ Event RunHSM(Event ThisEvent){
 			break;
 
 		case Panic:
-			printf("%s ->  Panic\n", EventStr[ThisEvent.Type]);
+			printf("%s(%d) ->  Panic\n", EventStr[ThisEvent.Type], ThisEvent.Param);
 
 			//Ignore all new events (for now)
 
