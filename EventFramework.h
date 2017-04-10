@@ -14,6 +14,9 @@ Contains declarations of structs and data-types used in the EventFramework */
 #define ANSI_COLOR_BLUE		"\x1b[34m"
 #define ANSI_COLOR_RESET	"\x1b[0m"
 
+#define TOO_DEEP	0
+#define TOO_SHALLOW	1
+
 typedef enum {
 	No_Event,
 	Init_Event,
