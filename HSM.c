@@ -57,7 +57,8 @@ Event RunHSM(Event ThisEvent){
 				//do initializations
 
 				//Init all sub-states
-
+				InitSubUltrasonicState();
+				
 				NextState = SearchingForSignal;
 				changeStates = TRUE;
 			}
