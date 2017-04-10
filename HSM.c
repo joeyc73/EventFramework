@@ -31,7 +31,6 @@ Queue InitHSM(void){
 	CurrentState = InitState;
 	Event initEvent = {Init_Event, 0};
 	PostHSM(initEvent);
-
 	return hsmQueue;
 }
 
