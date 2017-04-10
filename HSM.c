@@ -81,11 +81,12 @@ Event RunHSM(Event ThisEvent){
 			}
 			else if(ThisEvent.Type == Depth_Event){
 				//TODO: typedef params to somthing like TOO_DEEP & TOO_SHALLOW
-				if (ThisEvent.Param == 00) {
+				//DONE: I #defineed them in Event_Framework.h
+				if (ThisEvent.Param == TOO_DEEP) {
 					NextState = GoingUp;
 					changeStates = TRUE;
 				}
-				else if (ThisEvent.Param == 1) {
+				else if (ThisEvent.Param == TOO_SHALLOW) {
 					NextState = GoingDown;
 					changeStates = TRUE;
 				}
@@ -107,11 +108,12 @@ Event RunHSM(Event ThisEvent){
 
 			if(ThisEvent.Type == Depth_Event){
 				//TODO: typedef params to somthing like TOO_DEEP & TOO_SHALLOW
-				if (ThisEvent.Param == 0) {
+				//DONE: I #defineed them in Event_Framework.h
+				if (ThisEvent.Param == TOO_DEEP) {
 					NextState = GoingUp;
 					changeStates = TRUE;
 				}
-				else if (ThisEvent.Param == 1) {
+				else if (ThisEvent.Param == TOO_SHALLOW) {
 					NextState = GoingDown;
 					changeStates = TRUE;
 				}
