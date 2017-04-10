@@ -16,11 +16,16 @@ typedef enum {
 	Humidity_Event,
 } EventType;
 
-extern const char* TypeArray[];
+extern const char* EventStr[]; //Defined in Framework_Main.c
 
 typedef struct Event{
 	EventType Type;
 	uint8_t Param;
 } Event;
+
+typedef enum {
+	FALSE,
+	TRUE
+} bools;
 
 #endif //EVENT_FRAMEWORK_H

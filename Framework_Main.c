@@ -29,16 +29,16 @@ int main(int argc, char* argv[]) {
 
 
 	//Start main loop
-	int loop = 1;
+	int loop = 5;
 	while (loop){
 
 		//Check for new events
 		//Ex: if (event = checkUltrasonic()) insertEvent(event)
 
-		Event e1 = {Humidity_Event, 51};
+		Event e1 = {Depth_Event, 51};
 		PostHSM(e1);
 
-		if (queueSize(hsmQueue) > 0){
+		while (queueSize(hsmQueue) > 0){
 			//Remove event from queue, and pass it to the HSM
 			Event retEvent = RunHSM(removeEvent(hsmQueue));
 
@@ -46,9 +46,8 @@ int main(int argc, char* argv[]) {
 				printf("Error: Event was not handled in HSM - %s\n", EventStr[retEvent.Type]);
 				loop = 0;
 			}
-			loop = 0;
 		}
-		
+		loop--;
 	}
 
 	// TODO: Need a way to exit while loop
