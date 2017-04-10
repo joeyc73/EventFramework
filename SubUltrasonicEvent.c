@@ -11,6 +11,7 @@
 #include "SubUltrasonicEvent.h"
 
 typedef enum {
+    Init,
     Idle,
     TopOn,
     BottomOn,
@@ -24,6 +25,8 @@ typedef enum {
    #define BottomPin
    */
 
+static SubUltrasonicEventHSMState CurrentState;
+
 #define LEFT_ON		3
 #define RIGHT_ON	2
 #define TOP_ON 		1
@@ -31,9 +34,10 @@ typedef enum {
 
 uint8_t InitSubUltrasonicState(){
     Event returnEvent;
-    CurrentState = Idle;
-    returnEvent = RunSubUltrasonicEventHSM(Init_Event);
-    if (returnEvent.EventType == No_Event) {
+    CurrentState = Init;
+    Event initEvent = {Init_Event, 0};
+    returnEvent = RunSubUltrasonicEventHSM(initEvent);
+    if (returnEvent.Type == No_Event) {
         return TRUE;
     }
     return FALSE;
@@ -44,6 +48,9 @@ Event RunSubUltrasonicEventHSM(Event ThisEvent) {
     SubUltrasonicEventHSMState nextState;
     
     switch (CurrentState) {
+        case Init:
+
+            break;
         case Idle: // If current state is initial State
             /* if TopPin goes high 
                     nextState = TopOn;
@@ -58,37 +65,47 @@ Event RunSubUltrasonicEventHSM(Event ThisEvent) {
                     nextState = LeftOn;
                     break;
                     */
+            break;
 
         case TopOn: // If Top sensor goes high
             /* Once TopPin goes low
                 nextState = Idle;
                 break;
                 */
+            break;
 
         case BottomOn: // If bottom sensor goes high
             /* Once BottomPin goes low
                 nextState = Idle;
                 break;
                 */
+            break;
 
         case LeftOn: // If left sensor goes high
             /* Once LeftPin goes low
                 nextState = Idle;
                 break;
                 */
+            break;
 
         case RightOn: // If right sensor goes high
             /* Once RightPin goes low
                 nextState = Idle;
                 break;
                 */
+            break;
+
+        default:
+            break;
 
     }
     if (changeStates == TRUE) { // making a state transition, send EXIT and ENTRY
  		// recursively call the current state with an exit event
-        RunSubUltrasonicEventHSM(Exit_Event);
+        Event exitEvent = {Exit_Event, 0};
+        Event entryEvent = {Entry_Event, 0};
+        RunSubUltrasonicEventHSM(exitEvent);
         CurrentState = nextState;
-        RunSubUltrasonicEventHSM(Entry_Event);
+        RunSubUltrasonicEventHSM(entryEvent);
     }
     return ThisEvent;
 }
