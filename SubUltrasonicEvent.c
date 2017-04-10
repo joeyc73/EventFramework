@@ -17,6 +17,12 @@ typedef enum {
     RightOn,
 } SubUltrasonicEventHSMState;
 
+/* #define LeftPin
+   #define RightPin
+   #define TopPin
+   #define BottomPin
+   */
+
 #define LEFT_ON		3
 #define RIGHT_ON	2
 #define TOP_ON 		1
