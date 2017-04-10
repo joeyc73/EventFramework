@@ -38,14 +38,43 @@ Event RunSubUltrasonicEventHSM(Event ThisEvent) {
     
     switch (CurrentState) {
         case Idle: // If current state is initial State
+            /* if TopPin goes high 
+                    nextState = TopOn;
+                    break;
+               else if BottomPin goes high 
+                    nextState = BottomOn;
+                    break;
+               else if RightPin goes high
+                    nextState = RightOn;
+                    break;
+               else if LeftPin goes high
+                    nextState = LeftOn;
+                    break;
+                    */
 
         case TopOn: // If Top sensor goes high
+            /* Once TopPin goes low
+                nextState = Idle;
+                break;
+                */
 
         case BottomOn: // If bottom sensor goes high
+            /* Once BottomPin goes low
+                nextState = Idle;
+                break;
+                */
 
         case LeftOn: // If left sensor goes high
+            /* Once LeftPin goes low
+                nextState = Idle;
+                break;
+                */
 
         case RightOn: // If right sensor goes high
+            /* Once RightPin goes low
+                nextState = Idle;
+                break;
+                */
 
     }
     if (changeStates == TRUE) { // making a state transition, send EXIT and ENTRY
