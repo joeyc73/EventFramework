@@ -9,6 +9,7 @@
 #include "EventFramework.h"
 #include "HSM.h"
 #include "eventQueue.h"
+#include "SubUltrasonicEvent.h"
 
 typedef enum {
     InitState,

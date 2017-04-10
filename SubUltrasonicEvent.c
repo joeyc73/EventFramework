@@ -29,7 +29,7 @@ typedef enum {
 #define TOP_ON 		1
 #define BOTTOM_ON	0
 
-uint8_t InitSubUltrasonicState(void){
+uint8_t InitSubUltrasonicState(){
     Event returnEvent;
     CurrentState = Idle;
     returnEvent = RunSubUltrasonicEventHSM(Init_Event);

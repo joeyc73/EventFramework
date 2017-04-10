@@ -3,6 +3,9 @@
  * Underwater ROV/Drone
  */
 
+#ifndef SUB_ULTRASONIC_EVENT_H
+#define SUB_ULTRASONIC_EVENT_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "EventFramework.h"
@@ -16,3 +19,5 @@
 
 uint8_t InitSubUltrasonicState(void);
 Event RunSubUltrasonicEventHSM(Event ThisEvent);
+
+#endif //SUB_ULTRASONIC_EVENT_H
