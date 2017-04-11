@@ -9,6 +9,7 @@
 #include "HSM.h"
 #include "eventQueue.h"
 #include "SubUltrasonicEvent.h"
+#include "autoMotorFunctions.h"
 
 typedef enum {
     Init,
@@ -22,10 +23,10 @@ typedef enum {
 static SubUltrasonicEventHSMState CurrentState;
 int right, left, up, down, tracking, moving;
 
-#define LEFT_ON		3
-#define RIGHT_ON	2
-#define TOP_ON 		1
-#define BOTTOM_ON	0
+// #define LEFT_ON		3
+// #define RIGHT_ON	2
+// #define TOP_ON 		1
+// #define BOTTOM_ON	0
 
 uint8_t InitSubUltrasonicState(){
     Event returnEvent;
@@ -54,22 +55,25 @@ Event RunSubUltrasonicEventHSM(Event ThisEvent) {
            
             if(up){ // if Top Pin goes high
                 nextState = TopOn;
-                break;
-            }else if(down) //if Bottom Pin goes high 
+                //break;
+            }
+            else if(down){ //if Bottom Pin goes high 
                 nextState = BottomOn;
-                break;
-            }else if(right) // if Right Pin goes high
+                //break;
+            }
+            else if(right){ // if Right Pin goes high
                 nextState = RightOn;
-                break;
-            }else if(left) // if LeftPin goes high
+                //break;
+            }
+            else if(left){ // if LeftPin goes high
                 nextState = LeftOn;
-                break;
+                //break;
             }  
             break;
         
         case TopOn: // If Top sensor goes high
             moving = 1;
-            while(moving)
+            while(moving){
                 up = digitalRead(upPin);
                 if(up) dive(-10); //rise by moving motors 10 percent
                 if(!up){
@@ -84,7 +88,7 @@ Event RunSubUltrasonicEventHSM(Event ThisEvent) {
 
         case BottomOn: // If bottom sensor goes high
             moving = 1;
-            while(moving)
+            while(moving){
                 down = digitalRead(downPin);
                 if(down) dive(10); //dive by moving motors 10 percent
                 if(!down){
@@ -98,7 +102,7 @@ Event RunSubUltrasonicEventHSM(Event ThisEvent) {
 
         case LeftOn: // If left sensor goes high
             moving = 1;
-            while(moving)
+            while(moving){
                 left = digitalRead(leftPin);
                 if(left) turnLeft(10); //turn left by moving motors 10 percent
                 if(!left){
@@ -112,7 +116,7 @@ Event RunSubUltrasonicEventHSM(Event ThisEvent) {
 
         case RightOn: // If right sensor goes high
             moving = 1;
-            while(moving)
+            while(moving){
                 right = digitalRead(rightPin);
                 if(right) turnRight(10); //turn right by moving motors 10 percent
                 if(!right){
