@@ -11,6 +11,7 @@
 #include "EventFramework.h"
 #include "HSM.h"
 #include "eventQueue.h"
+#include "autoMotorFunctions.h"
 
 #define LEFT_ON		3
 #define RIGHT_ON	2
