@@ -9,6 +9,9 @@
 #include <string.h>
 #include "pigpio.h"
 //#include "receiver.h"
+
+#include "autoMotorFunctions.h"
+
 #define MAX_LINE 6
 
 #define NEUTRAL_THROTTLE	1500
@@ -26,7 +29,7 @@
 #define downPin			6
 #define LEDPin			26
 
-const char pinList[5] = {PIN_LTHRUST, PIN_RTHRUST, PIN_LTOP, PIN_RTOP, PIN_FTOP};
+//const char pinList[5] = {PIN_LTHRUST, PIN_RTHRUST, PIN_LTOP, PIN_RTOP, PIN_FTOP};
 
 //Motor Functions
 
@@ -85,4 +88,4 @@ int main{
 	return 0;
 }
 delay(150);*/
-pthread_exit(NULL);
+//pthread_exit(NULL);

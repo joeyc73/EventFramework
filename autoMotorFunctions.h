@@ -1,4 +1,7 @@
 
+#ifndef AUTO_MOTOR_FUNCS_H
+#define AUTO_MOTOR_FUNCS_H
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -6,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-//#include <wiringPi.h>
+#include <wiringPi.h>
 #include <string.h>
 #include "pigpio.h"
 //#include "receiver.h"
@@ -35,3 +38,5 @@ void turnLeft(int percent);
 void turnRight(int percent);
 void dive(int percent);
 void initMotors();
+
+#endif //AUTO_MOTOR_FUNCS_H
