@@ -9,24 +9,17 @@
 #include "HSM.h"
 #include "eventQueue.h"
 #include "SubUltrasonicEvent.h"
-#include "autoMotorFunctions.h"
+//#include "autoMotorFunctions.h"
 
 typedef enum {
     Init,
-    Idle,
-    TopOn,
-    BottomOn,
-    LeftOn,
-    RightOn,
+    Tracking,
 } SubUltrasonicEventHSMState;
 
 static SubUltrasonicEventHSMState CurrentState;
 int right, left, up, down, tracking, moving;
 
-// #define LEFT_ON		3
-// #define RIGHT_ON	2
-// #define TOP_ON 		1
-// #define BOTTOM_ON	0
+int pivotToSignal(uint8_t param);
 
 uint8_t InitSubUltrasonicState(){
     Event returnEvent;
@@ -41,92 +34,29 @@ uint8_t InitSubUltrasonicState(){
 
 Event RunSubUltrasonicEventHSM(Event ThisEvent) {
     uint8_t changeStates = FALSE; // use to flag transition
-    SubUltrasonicEventHSMState nextState;
+    SubUltrasonicEventHSMState NextState;
     
     switch (CurrentState) {
         case Init:
+            if(ThisEvent.Type == Init_Event){
+                //do initializations
+                
+                NextState = Tracking;
+                changeStates = TRUE;
+            }
+            break;
 
-            break;
-        case Idle: // If current state is initial State
-            right  = digitalRead(rightPin);
-            left = digitalRead(leftPin);
-            up = digitalRead(upPin);
-            down = digitalRead(downPin);
-           
-            if(up){ // if Top Pin goes high
-                nextState = TopOn;
-                //break;
+        case Tracking:
+            if (ThisEvent.Type == Ultrasonic_Event){
+                if (ThisEvent.Param == 0){
+                    //Lost the signal
+                    return ThisEvent;
+                }
+                pivotToSignal(ThisEvent.Param);
+                ThisEvent.Type = No_Event;
             }
-            else if(down){ //if Bottom Pin goes high 
-                nextState = BottomOn;
-                //break;
-            }
-            else if(right){ // if Right Pin goes high
-                nextState = RightOn;
-                //break;
-            }
-            else if(left){ // if LeftPin goes high
-                nextState = LeftOn;
-                //break;
-            }  
-            break;
+
         
-        case TopOn: // If Top sensor goes high
-            moving = 1;
-            while(moving){
-                up = digitalRead(upPin);
-                if(up) dive(-10); //rise by moving motors 10 percent
-                if(!up){
-                    dive(0); //stop motors from rising
-                    moving = 0;
-                }
-            }
-            // Once TopPin goes low
-            nextState = Idle;
-              
-            break;
-
-        case BottomOn: // If bottom sensor goes high
-            moving = 1;
-            while(moving){
-                down = digitalRead(downPin);
-                if(down) dive(10); //dive by moving motors 10 percent
-                if(!down){
-                    dive(0); //stop motors from diving
-                    moving = 0;
-                }
-            }
-            // Once BottomPin goes low
-            nextState = Idle;
-            break;
-
-        case LeftOn: // If left sensor goes high
-            moving = 1;
-            while(moving){
-                left = digitalRead(leftPin);
-                if(left) turnLeft(10); //turn left by moving motors 10 percent
-                if(!left){
-                    turnLeft(0); //stop motors from turning
-                    moving = 0;
-                }
-            }
-            // Once LeftPin goes low
-            nextState = Idle;
-            break;
-
-        case RightOn: // If right sensor goes high
-            moving = 1;
-            while(moving){
-                right = digitalRead(rightPin);
-                if(right) turnRight(10); //turn right by moving motors 10 percent
-                if(!right){
-                    turnRight(0); //stop motors from turning
-                    moving = 0;
-                }
-            }
-            // Once RightPin goes low
-            nextState = Idle;
-            break;
 
         default://NOT SURE WHAT THIS IS?
             break;
@@ -137,8 +67,71 @@ Event RunSubUltrasonicEventHSM(Event ThisEvent) {
         Event exitEvent = {Exit_Event, 0};
         Event entryEvent = {Entry_Event, 0};
         RunSubUltrasonicEventHSM(exitEvent);
-        CurrentState = nextState;
+        CurrentState = NextState;
         RunSubUltrasonicEventHSM(entryEvent);
     }
     return ThisEvent;
+}
+
+
+/*Adjusts the direction the drone is facing/moving depending on the 
+state of the ultrasonic sensors. Param is in the following order: LRTB
+Returns 1 for ok, and 0 for a problem */
+int pivotToSignal(uint8_t param){
+    //Move drone depending on ultrasonic parameter
+
+    switch (param){
+        
+        case TOP_ON:
+        case (TOP_ON | LEFT_ON | RIGHT_ON):
+            //Go up
+              
+            break;
+
+        case BOTTOM_ON:
+        case (BOTTOM_ON | LEFT_ON | RIGHT_ON):
+            //Go down
+
+            break;
+
+        case LEFT_ON:
+        case (LEFT_ON | TOP_ON | BOTTOM_ON):
+            //Go left
+
+            break;
+
+        case RIGHT_ON:
+        case (RIGHT_ON | TOP_ON | BOTTOM_ON):
+            //Go right
+
+            break;
+
+        case (TOP_ON | LEFT_ON):
+            //Go up and to the left
+
+            break;
+
+        case (TOP_ON | RIGHT_ON):
+            //Go up and to the right
+
+            break;
+
+        case (BOTTOM_ON | LEFT_ON):
+            //Go down and to the left
+
+            break;
+
+        case (BOTTOM_ON | RIGHT_ON):
+            //Go down and to the right
+
+            break;
+
+        default:
+            // ALL_ON || LEFT_ON | RIGHT_ON || TOP_ON | BOTTOM_ON
+            //Go forward
+
+            break;
+    }
+
+    return 1;
 }

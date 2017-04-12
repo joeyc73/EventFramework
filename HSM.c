@@ -106,6 +106,7 @@ Event RunHSM(Event ThisEvent){
 			printf("%s(%d) ->  TrackingSignal\n", EventStr[ThisEvent.Type], ThisEvent.Param);
 
 			//Pass event to sub-state
+			ThisEvent = RunSubUltrasonicEventHSM(ThisEvent);
 
 			if(ThisEvent.Type == Depth_Event){
 				//TODO: typedef params to somthing like TOO_DEEP & TOO_SHALLOW
@@ -126,6 +127,12 @@ Event RunHSM(Event ThisEvent){
 				changeStates = TRUE;
 				ThisEvent.Type = No_Event;
 
+			}
+			else if (ThisEvent.Type == Ultrasonic_Event) {
+				//Lost the signal
+				NextState = SearchingForSignal;
+				changeStates = TRUE;
+				ThisEvent.Type = No_Event;
 			}
 			break;
 
