@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall
-LINKS=-lpigpio -lwiringPi -lpthread -lm
-SOURCE=Framework_Main.c eventQueue.c HSM.c SubUltrasonicEvent.c autoMotorFunctions.c
+LINKS=-lwiringPi -lpigpio -lm -lpthread
+SOURCE=Framework_Main.c eventQueue.c HSM.c SubUltrasonicEvent.c UltrasonicEventChecker.c autoMotorFunctions.c
 EXECUTABLE=FrameworkMain
  
 all : $(EXECUTABLE)
