@@ -5,11 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-//#include <wiringPi.h>
+#include <wiringPi.h>
 #include <string.h>
-#include "pigpio.h"
+#include <pigpio.h>
 //#include "receiver.h"
-
 #include "autoMotorFunctions.h"
 
 #define MAX_LINE 6
@@ -29,7 +28,7 @@
 #define downPin			6
 #define LEDPin			26
 
-//const char pinList[5] = {PIN_LTHRUST, PIN_RTHRUST, PIN_LTOP, PIN_RTOP, PIN_FTOP};
+const char pinList[5] = {PIN_LTHRUST, PIN_RTHRUST, PIN_LTOP, PIN_RTOP, PIN_FTOP};
 
 //Motor Functions
 

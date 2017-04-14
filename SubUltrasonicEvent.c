@@ -9,7 +9,7 @@
 #include "HSM.h"
 #include "eventQueue.h"
 #include "SubUltrasonicEvent.h"
-//#include "autoMotorFunctions.h"
+#include "autoMotorFunctions.h"
 
 typedef enum {
     Init,
@@ -79,57 +79,61 @@ state of the ultrasonic sensors. Param is in the following order: LRTB
 Returns 1 for ok, and 0 for a problem */
 int pivotToSignal(uint8_t param){
     //Move drone depending on ultrasonic parameter
-
+    int moving = 0;
     switch (param){
         
         case TOP_ON:
-        case (TOP_ON | LEFT_ON | RIGHT_ON):
+        case (TOP_ON | LEFT_ON | RIGHT_ON): //0b1110
             //Go up
-              
+            //dive(10);  
             break;
 
         case BOTTOM_ON:
         case (BOTTOM_ON | LEFT_ON | RIGHT_ON):
             //Go down
-
+            //dive(10);
             break;
 
         case LEFT_ON:
         case (LEFT_ON | TOP_ON | BOTTOM_ON):
             //Go left
-
+	    //turnLeft(10);
             break;
 
         case RIGHT_ON:
         case (RIGHT_ON | TOP_ON | BOTTOM_ON):
             //Go right
-
+	    //turnRight(10);
             break;
 
         case (TOP_ON | LEFT_ON):
             //Go up and to the left
-
+	    //dive(10);
+	    //turnLeft(10);
             break;
 
         case (TOP_ON | RIGHT_ON):
             //Go up and to the right
-
+	    //dive(10);
+	    //turnRight(10);
             break;
 
         case (BOTTOM_ON | LEFT_ON):
             //Go down and to the left
-
+	    //dive(10);
+	    //turnLeft(10);
             break;
 
         case (BOTTOM_ON | RIGHT_ON):
             //Go down and to the right
-
+	    //dive(10);
+	    //turnRight(10);
             break;
 
         default:
             // ALL_ON || LEFT_ON | RIGHT_ON || TOP_ON | BOTTOM_ON
             //Go forward
-
+	    //goForward(10);
             break;
     }
 
