@@ -79,7 +79,7 @@ state of the ultrasonic sensors. Param is in the following order: LRTB
 Returns 1 for ok, and 0 for a problem */
 int pivotToSignal(uint8_t param){
     //Move drone depending on ultrasonic parameter
-    int moving = 0;
+    //int moving = 0;
     switch (param){
         
         case TOP_ON:

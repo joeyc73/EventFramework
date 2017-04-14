@@ -37,7 +37,12 @@ int main(int argc, char* argv[]) {
 #ifndef USE_KEYBOARD_INPUT
 
 		//Check for new events
-		//Ex: if (event = checkUltrasonic()) insertEvent(event)
+		Event event = checkUltrasonicSensors();
+		if (event.Type != No_Event){
+			PostHSM(event);
+			loop = FALSE;
+		}
+		printf("Ultrasonic result: %s\n", EventStr[event.Type]);
 #endif
 
 
@@ -60,9 +65,8 @@ int main(int argc, char* argv[]) {
 
 		e1.Param = (uint8_t) in[0] - '0';
 		printf("passing: %s\n", EventStr[e1.Type]);
-#endif //USE_KEYBOARD_INPUT 
-
 		PostHSM(e1);
+#endif //USE_KEYBOARD_INPUT 
 
 		while (queueSize(hsmQueue) > 0){
 			//Remove event from queue, and pass it to the HSM

@@ -5,7 +5,7 @@ Contains declarations of structs and data-types used in the EventFramework */
 #define EVENT_FRAMEWORK_H
 
 //Uncomment this to simulate the Framework from keyboard
-#define USE_KEYBOARD_INPUT 
+//#define USE_KEYBOARD_INPUT 
 
 #include <stdint.h>
 
