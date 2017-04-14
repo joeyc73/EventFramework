@@ -12,26 +12,43 @@
 #include "autoMotorFunctions.h"
 #include "UltrasonicEventChecker.h"
 
-uint8_t lastState = 0;
-Event thisEvent;
+#define DEBOUNCE_TIMER 5
+
+static uint8_t lastState = 0;
+static uint8_t pendingState = 0;
+static uint8_t debounceCounter = 0;
 
 Event checkUltrasonicSensors(){
+	Event thisEvent = {No_Event, 0};
 	uint8_t currentState = lastState;
-	left = digitalRead(leftPin);
-	right = digitalRead(rightPin);
-	top = digitalRead(topPin);
-	bottom = digitalRead(bottomPin);
-	tracking = digitalRead(beaconPin);
+
+	uint8_t left = digitalRead(leftPin);
+	uint8_t right = digitalRead(rightPin);
+	uint8_t top = digitalRead(upPin);
+	uint8_t bottom = digitalRead(downPin);
+	// Move this to a new file : tracking = digitalRead(beaconPin);
 	currentState = (left<<3) | (right<<2) | (top<<1) | bottom; //combine 4 digit reading
-	if(currentState != lastState){ 
-		thisEvent.Eventype = Ultrasonic_Event;
+
+	if (debounceCounter == 0){
+		//Start pending state
+		if (currentState != lastState){
+			pendingState = currentState;
+			debounceCounter++;
+		}
+	} else if (debounceCounter < DEBOUNCE_TIMER){
+		//Waiting in pending state
+		if (currentState != pendingState){
+			debounceCounter = 0;
+		} else {
+			debounceCounter++;
+		}
+	} else {
+		//Pending state is ready
+		lastState = pendingState;
+		debounceCounter = 0;
+		thisEvent.Type = Ultrasonic_Event;
 		thisEvent.Param = currentState;
-		return thisEvent;
-	}else if(!tracking){
-		thisEvent.EventType = Ultrasonic_Event;
-		thisEvent.Param = 0; //lost signal
-		return thisEvent;
 	}
-	lastState = currentState;
-	return No_Event;
+	
+	return thisEvent;
 }

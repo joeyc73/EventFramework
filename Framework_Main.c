@@ -6,6 +6,7 @@ and add the events to the queue. */
 #include <stdio.h>
 
 #include "EventFramework.h"
+#include "UltrasonicEventChecker.h"
 #include "eventQueue.h"
 #include "HSM.h"
 
