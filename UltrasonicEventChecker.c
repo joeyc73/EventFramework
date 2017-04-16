@@ -22,11 +22,12 @@ Event checkUltrasonicSensors(){
 	Event thisEvent = {No_Event, 0};
 	uint8_t currentState = 0;
 
-	uint8_t left = digitalRead(leftPin);
-	uint8_t right = digitalRead(rightPin);
-	uint8_t top = digitalRead(upPin);
-	uint8_t bottom = digitalRead(downPin);
-	left = 1;
+	uint8_t left = !digitalRead(leftPin);
+	uint8_t right = !digitalRead(rightPin);
+	uint8_t top = !digitalRead(upPin);
+	uint8_t bottom = !digitalRead(downPin);
+	printf("Down Pin is: %d\n", bottom);
+
 	// Move this to a new file : tracking = digitalRead(beaconPin);
 	currentState = (left<<3) | (right<<2) | (top<<1) | bottom; //combine 4 digit reading
 	printf("Current Ultrasonic State: %d\n", currentState);

@@ -4,11 +4,12 @@ When the queue is empty, the file will poll each event checker functions
 and add the events to the queue. */
 
 #include <stdio.h>
-
+#include <pigpio.h>
 #include "EventFramework.h"
 #include "UltrasonicEventChecker.h"
 #include "eventQueue.h"
 #include "HSM.h"
+#include <wiringPi.h>
 
 const char* EventStr[] = {
 	"No_Event",
@@ -29,13 +30,16 @@ int main(int argc, char* argv[]) {
 
 	//Initialize everything..
 	Queue hsmQueue = InitHSM();
+	wiringPiSetupSys();
+	gpioInitialise();
+	initMotors();
 
 	//Start main loop
 	int loop = TRUE;
 	while (loop){
-
+		delay(200);
 #ifndef USE_KEYBOARD_INPUT
-
+	//Put in wiringPi interrupt
 		//Check for new events
 		Event event = checkUltrasonicSensors();
 		if (event.Type != No_Event){

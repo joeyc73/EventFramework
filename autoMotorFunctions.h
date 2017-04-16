@@ -24,10 +24,6 @@
 #define NUM_MOTORS		5
 
 #define beaconPin		25
-#define rightPin		1
-#define leftPin			4
-#define upPin			5
-#define downPin			6
 #define LEDPin			26
 
 //const char pinList[5] = {PIN_LTHRUST, PIN_RTHRUST, PIN_LTOP, PIN_RTOP, PIN_FTOP};
