@@ -16,6 +16,7 @@ Contains declarations of structs and data-types used in the EventFramework */
 
 #define TOO_DEEP	0
 #define TOO_SHALLOW	1
+#define DEPTH_OK        2
 
 typedef enum {
 	No_Event,

@@ -4,12 +4,16 @@ When the queue is empty, the file will poll each event checker functions
 and add the events to the queue. */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <pigpio.h>
+#include <pthread.h>
 #include "EventFramework.h"
 #include "UltrasonicEventChecker.h"
 #include "eventQueue.h"
 #include "HSM.h"
 #include <wiringPi.h>
+#include "MS58_Collection.h"
+pthread_t tid[2];
 
 const char* EventStr[] = {
 	"No_Event",
@@ -30,9 +34,27 @@ int main(int argc, char* argv[]) {
 
 	//Initialize everything..
 	Queue hsmQueue = InitHSM();
-	wiringPiSetupSys();
+	wiringPiSetup();
 	gpioInitialise();
 	initMotors();
+        
+	mArgs = malloc(sizeof(struct motorControl_args));
+	psArgs = malloc(sizeof(struct presCollection_args));
+	uint8_t *tpArgs;
+	// Start individual threads
+	uint8_t err;
+	err = pthread_create(&(tid[1]), NULL, &receiveCmds, (void*)mArgs);
+	if (err != 0) {
+		perror("Motor thread error");
+	} else {
+		printf("Motor Control thread created\n");
+	}
+	err = pthread_create(&(tid[2]), NULL, &runPresCollection, (void*)psArgs);
+	if (err != 0) {
+		perror("Pressure thread error");
+	} else {
+		printf("Pressure thread created\n");
+	}
 
 	//Start main loop
 	int loop = TRUE;
@@ -44,9 +66,15 @@ int main(int argc, char* argv[]) {
 		Event event = checkUltrasonicSensors();
 		if (event.Type != No_Event){
 			PostHSM(event);
-			loop = FALSE;
+			//loop = FALSE;
 		}
 		printf("Ultrasonic result: %s\n", EventStr[event.Type]);
+
+		Event event = checkDepthSensor();
+		if(event.Type != No_Event){
+			PostHSM(event);
+		}
+		printf("Depth result: %s\n", EventStr[event.Type];
 #endif
 
 
@@ -85,6 +113,8 @@ int main(int argc, char* argv[]) {
 
 	// TODO: Need a way to exit while loop
 	freeQueue(&hsmQueue);
+        free(psArgs);
+	pthread_exit(NULL);
 	return 0;
 }
 

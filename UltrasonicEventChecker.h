@@ -7,6 +7,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <pigpio.h>
+#include <wiringPi.h>
 #include "EventFramework.h"
 #include "HSM.h"
 #include "eventQueue.h"
@@ -18,7 +20,7 @@
 #define rightPin 1
 #define leftPin 4
 #define upPin 5
-#define downPin 26
+#define downPin 21
 
 Event checkUltrasonicSensors();
 
